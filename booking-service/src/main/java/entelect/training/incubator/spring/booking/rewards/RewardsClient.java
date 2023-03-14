@@ -1,7 +1,7 @@
-package entelect.training.incubator.spring.client.rewards;
+package entelect.training.incubator.spring.booking.rewards;
 
-import entelect.training.incubator.spring.client.gen.CaptureRewardsRequest;
-import entelect.training.incubator.spring.client.gen.CaptureRewardsResponse;
+import entelect.training.incubator.spring.booking.client.gen.CaptureRewardsRequest;
+import entelect.training.incubator.spring.booking.client.gen.CaptureRewardsResponse;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
 import java.math.BigDecimal;

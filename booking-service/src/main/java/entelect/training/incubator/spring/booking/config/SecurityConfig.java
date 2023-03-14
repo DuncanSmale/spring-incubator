@@ -35,8 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() // !!! Disclaimer: NEVER DISABLE CSRF IN PRODUCTION !!!
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/flights/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/flights/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/bookings/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/bookings/**").permitAll()
 //                .anyRequest().denyAll()
                 .and()
                 .httpBasic();

@@ -65,8 +65,8 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.ws</groupId>
-            <artifactId>spring-ws-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-services</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -94,7 +94,7 @@
                 <configuration>
                     <schemaLanguage>WSDL</schemaLanguage>
                     <generateDirectory>${project.basedir}/src/main/java</generateDirectory>
-                    <generatePackage>entelect.training.incubator.spring.client.gen</generatePackage>
+                    <generatePackage>entelect.training.incubator.spring.booking.client.gen</generatePackage>
                     <schemaDirectory>${project.basedir}/src/main/resources</schemaDirectory>
                     <schemaIncludes>
                         <include>rewards.wsdl</include>

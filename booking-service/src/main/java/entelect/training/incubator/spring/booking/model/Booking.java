@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class Booking {
 
     private Integer flightId;
 
-    private LocalDate bookingDate;
+    private LocalDateTime bookingDate;
 
     private String referenceNumber;
 }

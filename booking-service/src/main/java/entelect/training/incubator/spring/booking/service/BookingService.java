@@ -6,6 +6,9 @@ import entelect.training.incubator.spring.booking.model.BookingSearchType;
 import entelect.training.incubator.spring.booking.repository.BookingRepository;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -18,6 +21,20 @@ public class BookingService {
     }
 
     public Booking createBooking(Booking booking) {
+        booking.setBookingDate(LocalDateTime.now());
+
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString()
+                .toUpperCase();
+        booking.setReferenceNumber(generatedString);
         return bookingRepository.save(booking);
     }
 

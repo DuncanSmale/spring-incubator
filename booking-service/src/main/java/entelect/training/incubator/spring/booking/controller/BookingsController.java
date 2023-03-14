@@ -1,11 +1,13 @@
 package entelect.training.incubator.spring.booking.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import entelect.training.incubator.spring.booking.model.Booking;
 import entelect.training.incubator.spring.booking.model.BookingSearchRequest;
 import entelect.training.incubator.spring.booking.model.Customer;
 import entelect.training.incubator.spring.booking.model.Flight;
+import entelect.training.incubator.spring.booking.notification.NotificationProducer;
 import entelect.training.incubator.spring.booking.service.BookingService;
-import entelect.training.incubator.spring.client.rewards.RewardsClient;
+import entelect.training.incubator.spring.booking.rewards.RewardsClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,17 +25,20 @@ public class BookingsController {
 
     private final BookingService bookingService;
     private final RewardsClient rewardsClient;
+    private NotificationProducer notificationProducer;
 
-    public BookingsController(BookingService bookingService, RewardsClient rewardsClient) {
+    public BookingsController(BookingService bookingService, RewardsClient rewardsClient, NotificationProducer notificationProducer) {
         this.bookingService = bookingService;
         this.rewardsClient = rewardsClient;
+        this.notificationProducer = notificationProducer;
     }
 
     @PostMapping
-    public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
+    public ResponseEntity<?> createBooking(@RequestBody Booking booking) throws JsonProcessingException {
         WebClient client = WebClient.create();
         ResponseEntity<Customer> customer = client.get()
                 .uri("http://localhost:8201/customers/" + booking.getCustomerId())
+                .headers(headers -> headers.setBasicAuth("user", "the_cake"))
                 .retrieve()
                 .toEntity(Customer.class)
                 .block();
@@ -45,6 +50,7 @@ public class BookingsController {
 
         ResponseEntity<Flight> flight = client.get()
                 .uri("http://localhost:8202/flights/" + booking.getFlightId())
+                .headers(headers -> headers.setBasicAuth("user", "the_cake"))
                 .retrieve()
                 .toEntity(Flight.class)
                 .block();
@@ -54,7 +60,9 @@ public class BookingsController {
             return ResponseEntity.badRequest().build();
         }
         LOGGER.info("Found Flight With ID: {}", flight.getBody().getId().toString());
-        rewardsClient.captureRewards(customer.getBody().getPassportNumber(), BigDecimal.TEN);
+//        rewardsClient.captureRewards(customer.getBody().getPassportNumber(), BigDecimal.TEN);
+        String message = notificationProducer.createNotificationMessage(customer.getBody(), flight.getBody());
+        notificationProducer.sendNotification(customer.getBody().getPhoneNumber(), message);
 
         return new ResponseEntity<>(bookingService.createBooking(booking), HttpStatus.CREATED);
     }

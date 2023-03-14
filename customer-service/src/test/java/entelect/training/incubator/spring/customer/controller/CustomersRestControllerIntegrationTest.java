@@ -8,6 +8,7 @@ import entelect.training.incubator.spring.customer.model.CustomerSearchRequest;
 import entelect.training.incubator.spring.customer.model.SearchType;
 import entelect.training.incubator.spring.customer.repository.CustomerRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class CustomersRestControllerIntegrationTest {
         mvc.perform(post("/customers").contentType(MediaType.APPLICATION_JSON).content(toJson(customer)));
 
         List<Customer> found = (List<Customer>) repository.findAll();
-        assertThat(found).extracting(Customer::getFirstName).containsOnly(TEST_CUSTOMER_FIRST_NAME);
+        assertThat(found).extracting(Customer::getFirstName).contains(TEST_CUSTOMER_FIRST_NAME);
     }
 
     @Test

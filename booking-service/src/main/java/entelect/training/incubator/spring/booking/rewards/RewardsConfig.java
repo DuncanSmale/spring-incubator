@@ -1,4 +1,4 @@
-package entelect.training.incubator.spring.client.rewards;
+package entelect.training.incubator.spring.booking.rewards;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ public class RewardsConfig {
     @Bean
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setContextPath("entelect.training.incubator.spring.client.gen");
+        marshaller.setContextPath("entelect.training.incubator.spring.booking.client.gen");
         return marshaller;
     }
 
