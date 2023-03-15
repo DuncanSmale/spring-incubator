@@ -4,11 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import entelect.training.incubator.spring.booking.model.Customer;
 import entelect.training.incubator.spring.booking.model.Flight;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessagePostProcessor;
 import org.springframework.stereotype.Component;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,13 +22,7 @@ public class NotificationProducer {
         Map<String, String> payload = new HashMap<>();
         payload.put("phoneNumber", phoneNumber);
         payload.put("message", messageText);
-        jmsTemplate.convertAndSend("outbound.queue", payload, new MessagePostProcessor() {
-            public Message postProcessMessage(Message message) throws JMSException {
-                message.setStringProperty("phoneNumber", phoneNumber);
-                message.setStringProperty("message", messageText);
-                return message;
-            }
-        });
+        jmsTemplate.convertAndSend("outbound.queue", payload);
     }
 
     public String createNotificationMessage(Customer customer, Flight flight) {
