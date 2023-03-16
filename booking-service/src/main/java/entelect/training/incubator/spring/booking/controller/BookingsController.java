@@ -60,7 +60,7 @@ public class BookingsController {
             return ResponseEntity.badRequest().build();
         }
         LOGGER.info("Found Flight With ID: {}", flight.getBody().getId().toString());
-//        rewardsClient.captureRewards(customer.getBody().getPassportNumber(), BigDecimal.TEN);
+        rewardsClient.captureRewards(customer.getBody().getPassportNumber(), BigDecimal.TEN);
         String message = notificationProducer.createNotificationMessage(customer.getBody(), flight.getBody());
         notificationProducer.sendNotification(customer.getBody().getPhoneNumber(), message);
 

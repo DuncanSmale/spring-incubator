@@ -1,7 +1,6 @@
 package entelect.training.incubator.spring.customer.repository;
 
 import entelect.training.incubator.spring.customer.model.Customer;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

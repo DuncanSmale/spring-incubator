@@ -25,8 +25,6 @@ public class NotificationListener {
         System.out.println("Received message " + messageMap);
         String phoneNumber = messageMap.get("phoneNumber");
         String message = messageMap.get("message");
-        System.out.println(phoneNumber);
-        System.out.println(message);
         smsClient.sendSms(phoneNumber, message);
     }
 }
